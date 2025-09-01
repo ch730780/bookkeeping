@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>העלאת PDF</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .upload-area { border: 2px dashed #ccc; padding: 40px; text-align: center; margin: 20px 0; }
+        .result { margin: 20px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>העלאת קובץ PDF</h1>
+    
+    <div class="upload-area">
+        <input type="file" id="pdfFile" accept=".pdf">
+        <br><br>
+        <button onclick="uploadFile()">העלה קובץ</button>
+    </div>
+    
+    <div id="result"></div>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById('pdfFile');
+            const resultDiv = document.getElementById('result');
+            
+            if (!fileInput.files[0]) {
+                resultDiv.innerHTML = '<div class="result error">אנא בחר קובץ PDF</div>';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('pdf', fileInput.files[0]);
+
+            try {
+                const response = await fetch('/api/pdf/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `<div class="result success">✅ ${data.message}<br>שם הקובץ: ${data.originalName}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="result error">❌ ${data.error}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="result error">❌ שגיאה בהעלאת הקובץ</div>';
+            }
+        }
+    </script>
+</body>
+</html>
