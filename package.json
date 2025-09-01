@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://github.com/ch730780/bookkeeping/issues"
   },
-  "homepage": "https://github.com/ch730780/bookkeeping#readme"
+  "homepage": "https://github.com/ch730780/bookkeeping#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.18.0",
+    "multer": "^2.0.2",
+    "to": "^0.2.9",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.11.96",
+    "@types/multer": "^2.0.0"
+  }
 }
